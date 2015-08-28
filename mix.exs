@@ -3,7 +3,7 @@ defmodule Gateway.Mixfile do
 
   def project do
     [app: :gateway,
-     version: "0.0.1",
+     version: "0.0.2",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -40,7 +40,7 @@ defmodule Gateway.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:poison, "~>1.5"},
+    [{:poison, "~>1"},
     {:httpoison, "~>0.7"},
     {:fox, ">=0.1.4"},
     {:earmark, "~> 0.1", only: :dev},

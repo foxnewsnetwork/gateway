@@ -40,7 +40,7 @@ defmodule Gateway.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:poison, ">=1.4"},
+    [{:poison, ">=1.4.0"},
     {:httpoison, "~>0.7"},
     {:fox, ">=0.1.4"},
     {:earmark, "~> 0.1", only: :dev},

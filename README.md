@@ -75,3 +75,6 @@ And we are done (with Stripe's account API)! Use it like so:
 {:ok, account} = account.id |> Stripe.Accounts.delete
 # Deletes this account from Stripe
 ```
+
+>note: the stripe library implemented this way lives at: 
+> https://github.com/foxnewsnetwork/stripex

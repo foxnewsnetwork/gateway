@@ -21,6 +21,11 @@ defmodule Gateway.Resource do
     delete: :delete
   }
 
+  @doc """
+  Attempts to guess the resource name of the atom given.
+
+  The resource name is the singularized version of the given atom
+  """
   def infer_resouce_name(atom) do
     atom
     |> Atom.to_string
@@ -149,7 +154,6 @@ defmodule Gateway.Resource do
       def delete(ids) when is_tuple(ids) do
         path = resource_path(ids)
         apply(specific_gateway, unquote(methods[:delete]), [path])
-        |> specific_gateway.delete
         |> Gateway.Response.cast_as(delete_type)
         |> Gateway.Extractor.extract(delete_type)
       end

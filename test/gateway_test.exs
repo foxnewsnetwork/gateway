@@ -33,4 +33,36 @@ defmodule GatewayTest do
     assert error.reason == :econnrefused
     assert error.type == :http_error
   end
+
+  @customer_attr %{ 
+    email: "gateway.spec@#{Fox.StringExt.random(10)}.co",
+    description: "stripex testing customer",
+    metadata: %{
+      "now_playing" => "Halycon",
+      "artist" => "Reol",
+      "genre" => "Jpop"
+    }
+  }
+  test "creating a customer, getting a customer, updating a customer, deleting a customer" do
+    {:ok, customer} = Stripe.Customers.create @customer_attr
+    id = customer.id
+    assert id
+    assert customer.email == @customer_attr[:email]
+    assert customer.description == @customer_attr[:description]
+    assert customer.metadata == @customer_attr[:metadata]
+
+    {:ok, customer} = Stripe.Customers.retrieve id
+    assert customer.id == id
+
+    {:ok, customer} = Stripe.Customers.update(id, %{email: "dog@do.ge"})
+    assert customer.email == "dog@do.ge"
+
+    {:ok, dead_customer} = customer.id |> Stripe.Customers.delete
+    assert dead_customer.id == customer.id
+  end
+
+  test "it should properly not find stuff" do
+    {:error, error} = Stripe.Customers.retrieve "掴めないものほど欲しくなる"
+    assert error.status_code == 404
+  end
 end

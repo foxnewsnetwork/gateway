@@ -52,7 +52,7 @@ defmodule Gateway.Resource do
       def retrieve(ids) when is_tuple(ids) do
         path = resource_path(ids)
         apply(specific_gateway, unquote(methods[:retrieve]), [path])
-        |> Gateway.Response.cast_as(retrieve_type)
+        |> Gateway.Response.cast_as(retrieve_type, path)
         |> Gateway.Extractor.extract(retrieve_type)
       end
       def retrieve(id), do: retrieve({id})
@@ -74,7 +74,7 @@ defmodule Gateway.Resource do
       def all(ids, params) when is_tuple(ids) and (is_list(params) or is_map(params)) do
         path = resource_path(ids, params)
         apply(specific_gateway, unquote(methods[:all]), [path])
-        |> Gateway.Response.cast_as(all_type)
+        |> Gateway.Response.cast_as(all_type, path)
         |> Gateway.Extractor.extract(all_type)
       end
       def all(ids) when is_tuple(ids) do
@@ -106,7 +106,7 @@ defmodule Gateway.Resource do
         path = resource_path(ids)
 
         apply(specific_gateway, unquote(methods[:create]), [path, {:form, list}, [content_type: "multipart/form-data"]])
-        |> Gateway.Response.cast_as(create_type)
+        |> Gateway.Response.cast_as(create_type, path)
         |> Gateway.Extractor.extract(create_type)
       end
       def create(id, list), do: create({id}, list)
@@ -133,7 +133,7 @@ defmodule Gateway.Resource do
 
         path = resource_path(ids)
         apply(specific_gateway, unquote(methods[:update]), [path, {:form, list}, [content_type: "multipart/form-data"]])
-        |> Gateway.Response.cast_as(update_type)
+        |> Gateway.Response.cast_as(update_type, path)
         |> Gateway.Extractor.extract(update_type)
       end
       def update(id, params), do: update({id}, params)
@@ -154,7 +154,7 @@ defmodule Gateway.Resource do
       def delete(ids) when is_tuple(ids) do
         path = resource_path(ids)
         apply(specific_gateway, unquote(methods[:delete]), [path])
-        |> Gateway.Response.cast_as(delete_type)
+        |> Gateway.Response.cast_as(delete_type, path)
         |> Gateway.Extractor.extract(delete_type)
       end
       def delete(id), do: delete({id})
